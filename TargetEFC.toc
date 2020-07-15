@@ -1,5 +1,5 @@
 ## Title: TargetEFC
-## Version: 0.0.1
+## Version: 0.0.2
 ## Author: GaZaTu / Bbfly-Razorgore <Sleep>
 ## Notes: Utility to track / target the enemy flag carrier in Warsong Gulch
 ## SavedVariablesPerCharacter: TARGET_EFC_ADDON_DISABLED

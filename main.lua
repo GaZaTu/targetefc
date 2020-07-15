@@ -1,10 +1,15 @@
 local addonName, addonData = ...
 
+local EVENT_PLAYER_ENTERING_WORLD = 'PLAYER_ENTERING_WORLD'
 local EVENT_PLAYER_FLAGS_CHANGED = 'PLAYER_FLAGS_CHANGED'
 local EVENT_PLAYER_REGEN_ENABLED = 'PLAYER_REGEN_ENABLED'
 local EVENT_CHAT_MSG_BG_SYSTEM_NEUTRAL = 'CHAT_MSG_BG_SYSTEM_NEUTRAL'
 local EVENT_CHAT_MSG_BG_SYSTEM_ALLIANCE = 'CHAT_MSG_BG_SYSTEM_ALLIANCE'
 local EVENT_CHAT_MSG_BG_SYSTEM_HORDE = 'CHAT_MSG_BG_SYSTEM_HORDE'
+
+local UNIT_ID_PLAYER = 'player'
+local FACTION_GROUP_HORDE = 'Horde'
+local FACTION_GROUP_ALLIANCE = 'Alliance'
 
 local MACRO_TARGET_EFC_NAME = 'EFC!'
 local MACRO_TARGET_EFC_ICON = 132150
@@ -92,14 +97,18 @@ local updateEFCName = function(efcName)
 	updateTargetEFCMacro()
 end
 
+STATE.eventsFrame:RegisterEvent(EVENT_PLAYER_ENTERING_WORLD)
 STATE.eventsFrame:RegisterEvent(EVENT_PLAYER_FLAGS_CHANGED)
 STATE.eventsFrame:RegisterEvent(EVENT_PLAYER_REGEN_ENABLED)
 STATE.eventsFrame:RegisterEvent(EVENT_CHAT_MSG_BG_SYSTEM_NEUTRAL)
 STATE.eventsFrame:RegisterEvent(EVENT_CHAT_MSG_BG_SYSTEM_ALLIANCE)
 STATE.eventsFrame:RegisterEvent(EVENT_CHAT_MSG_BG_SYSTEM_HORDE)
 STATE.eventsFrame:SetScript('OnEvent', function(self, event, message)
-	if event == EVENT_PLAYER_FLAGS_CHANGED then
-		if UnitIsAFK('player') then
+	if event == EVENT_PLAYER_ENTERING_WORLD then
+		updateTargetEFCMacro()
+	elseif event == EVENT_PLAYER_FLAGS_CHANGED then
+		if UnitIsAFK(UNIT_ID_PLAYER) then
+			updateEFCName(nil)
 			showEFCFrame(false)
 		end
 	elseif event == EVENT_PLAYER_REGEN_ENABLED then
@@ -116,7 +125,7 @@ STATE.eventsFrame:SetScript('OnEvent', function(self, event, message)
 			return
 		end
 
-		if UnitFactionGroup('player') == 'Horde' then
+		if UnitFactionGroup(UNIT_ID_PLAYER) == FACTION_GROUP_HORDE then
 			match = string.match(message, MSG_PATTERN_HORDE_FLAG_DROPPED)
 			if match ~= nil then
 				updateEFCName(nil)
@@ -143,7 +152,7 @@ STATE.eventsFrame:SetScript('OnEvent', function(self, event, message)
 			return
 		end
 
-		if UnitFactionGroup('player') == 'Alliance' then
+		if UnitFactionGroup(UNIT_ID_PLAYER) == FACTION_GROUP_ALLIANCE then
 			match = string.match(message, MSG_PATTERN_ALLIANCE_FLAG_DROPPED)
 			if match ~= nil then
 				updateEFCName(nil)
