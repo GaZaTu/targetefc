@@ -1,10 +1,10 @@
 # TargetEFC
 
-Utility to track / target the enemy flag carrier in Warsong Gulch
+Utility to track / target the enemy flag carrier in Warsong Gulch.
 
 ## What does it do?
 
-This addon adds a little frame during Warsong Gulch games which shows the enemy flag carriers name
+This addon adds a little frame during Warsong Gulch games which shows the enemy flag carriers name.
 
 Every time you drop out of combat, a macro called `EFC!` will be updated with `/target <name of enemy flag carrier>` as it's code.
 The frame will have a red background color if the macro is out of sync.
